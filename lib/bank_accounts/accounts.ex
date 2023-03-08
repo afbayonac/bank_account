@@ -19,6 +19,9 @@ defmodule BankAccounts.Accounts do
   """
   def list_accounts do
     Repo.all(Account)
+    |> Repo.preload(:holder)
+    |> Repo.preload(:increments)
+    |> Repo.preload(:decrements)
   end
 
   @doc """
@@ -35,7 +38,12 @@ defmodule BankAccounts.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_account!(id), do: Repo.get!(Account, id)
+  def get_account!(id) do
+    Repo.get!(Account, id)
+    |> Repo.preload(:holder)
+    |> Repo.preload(:increments)
+    |> Repo.preload(:decrements)
+  end
 
   @doc """
   Creates a account.

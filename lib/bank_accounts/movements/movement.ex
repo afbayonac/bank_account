@@ -6,7 +6,6 @@ defmodule BankAccounts.Movements.Movement do
   @foreign_key_type :binary_id
   schema "movements" do
     field :amount, :integer
-    field :timestamp, :utc_datetime
     belongs_to :from, BankAccounts.Holders.Holder
     belongs_to :to, BankAccounts.Holders.Holder
 
@@ -16,7 +15,7 @@ defmodule BankAccounts.Movements.Movement do
   @doc false
   def changeset(movement, attrs) do
     movement
-    |> cast(attrs, [:amount, :timestamp])
-    |> validate_required([:amount, :timestamp])
+    |> cast(attrs, [:amount, :from_id, :to_id])
+    |> validate_required([:amount, :from_id, :to_id])
   end
 end

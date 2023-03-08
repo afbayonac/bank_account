@@ -22,8 +22,8 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ´´´bash
 docker run --name phx-postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres
 mix phx.gen.json Holders Holder holders name:string address:string birth:date phone:string
-mix phx.gen.json Accounts Account accounts number:string holder:references:holders
-mix phx.gen.json Movements Movement movements amount:integer from:references:accounts to:references:accounts timestamp:utc_datetime
+mix phx.gen.json Accounts Account accounts number:string holder_id:references:holders
+mix phx.gen.json Movements Movement movements amount:integer from_id:references:accounts to_id:references:accounts timestamp:utc_datetime
 
 ´´´
 

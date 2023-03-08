@@ -7,15 +7,16 @@ defmodule BankAccounts.Accounts.Account do
   schema "accounts" do
     field :number, :string
     belongs_to :holder, BankAccounts.Holders.Holder
-    has_many :movements_from, BankAccounts.Movements.Movement, foreign_key: :from_id
-    has_many :movements_to, BankAccounts.Movements.Movement, foreign_key: :to_id
+    has_many :increments, BankAccounts.Movements.Movement, foreign_key: :to_id
+    has_many :decrements, BankAccounts.Movements.Movement, foreign_key: :from_id
     timestamps()
   end
 
   @doc false
   def changeset(account, attrs) do
     account
-    |> cast(attrs, [:number])
-    |> validate_required([:number])
+    |> cast(attrs, [:number, :holder_id])
+    |> validate_required([:number, :holder_id])
+    |> unique_constraint(:number)
   end
 end

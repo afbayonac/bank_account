@@ -18,8 +18,7 @@ defmodule BankAccountsWeb.MovementJSON do
   defp data(%Movement{} = movement) do
     %{
       id: movement.id,
-      amount: movement.amount,
-      timestamp: movement.timestamp
+      amount: movement.amount
     }
   end
 end
