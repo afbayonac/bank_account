@@ -12,12 +12,11 @@ defmodule BankAccountsWeb.AccountController do
   end
 
   def create(conn, %{"account" => account_params}) do
-    with {:ok, %Account{} = account} <- Accounts.create_account(account_params) do
-      conn
-      |> put_status(:created)
-      |> put_resp_header("location", ~p"/api/accounts/#{account}")
-      |> render(:show, account: account)
-    end
+    account = Accounts.create_account(account_params)
+    conn
+    |> put_status(:created)
+    |> put_resp_header("location", ~p"/api/accounts/#{account}")
+    |> render(:show, account: account)
   end
 
   def balance(conn, %{"id" => id}) do
@@ -36,7 +35,6 @@ defmodule BankAccountsWeb.AccountController do
 
     render(conn, :balance, account: account)
   end
-
 
   def show(conn, %{"id" => id}) do
     account = Accounts.get_account!(id)

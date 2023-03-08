@@ -60,7 +60,10 @@ defmodule BankAccounts.Accounts do
   def create_account(attrs \\ %{}) do
     %Account{}
     |> Account.changeset(attrs)
-    |> Repo.insert()
+    |> Repo.insert!()
+    |> Repo.preload(:holder)
+    |> Repo.preload(:increments)
+    |> Repo.preload(:decrements)
   end
 
   @doc """
