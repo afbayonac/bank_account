@@ -21,6 +21,7 @@ defmodule BankAccountsWeb.AccountJSON do
     holder = account.holder |> Map.drop(drop_list)
 
     drop_list_movements = [:__meta__, :accounts, :__struct__, :from, :to]
+
     increments = account.increments
     |> Enum.map(fn i -> i |> Map.drop(drop_list_movements) end)
 
