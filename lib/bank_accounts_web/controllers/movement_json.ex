@@ -15,10 +15,16 @@ defmodule BankAccountsWeb.MovementJSON do
     %{data: data(movement)}
   end
 
+  def cash_flow(%{flow: flow}) do
+    %{data: %{ flow: flow }}
+  end
+
   defp data(%Movement{} = movement) do
     %{
       id: movement.id,
-      amount: movement.amount
+      amount: movement.amount,
+      from_id: movement.from_id,
+      to_id: movement.to_id
     }
   end
 end

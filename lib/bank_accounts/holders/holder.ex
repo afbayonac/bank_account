@@ -18,5 +18,8 @@ defmodule BankAccounts.Holders.Holder do
     holder
     |> cast(attrs, [:name, :address, :birth, :phone])
     |> validate_required([:name, :address, :birth, :phone])
+    |> validate_length(:address, min: 4, max: 100)
+    |> validate_length(:phone, is: 10)
+    |> validate_length(:name, min: 4, max: 100)
   end
 end

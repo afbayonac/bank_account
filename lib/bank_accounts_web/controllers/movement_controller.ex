@@ -20,24 +20,27 @@ defmodule BankAccountsWeb.MovementController do
     end
   end
 
+  def cash_flow(conn, _) do
+    movements = Movements.list_movements()
+
+    cash_outflows = movements
+    |>Enum.filter(fn m -> m.to_id === nil end)
+    |>Enum.reduce(0, fn m, acc -> acc + m.amount end)
+
+    cash_inflows = movements
+    |>Enum.filter(fn m -> m.from_id === nil end)
+    |>Enum.reduce(0, fn m, acc -> acc + m.amount end)
+
+    flow = %{
+      cash_outflows: cash_outflows,
+      cash_inflows: cash_inflows
+    }
+
+    render(conn, :cash_flow, flow: flow)
+  end
+
   def show(conn, %{"id" => id}) do
     movement = Movements.get_movement!(id)
     render(conn, :show, movement: movement)
-  end
-
-  def update(conn, %{"id" => id, "movement" => movement_params}) do
-    movement = Movements.get_movement!(id)
-
-    with {:ok, %Movement{} = movement} <- Movements.update_movement(movement, movement_params) do
-      render(conn, :show, movement: movement)
-    end
-  end
-
-  def delete(conn, %{"id" => id}) do
-    movement = Movements.get_movement!(id)
-
-    with {:ok, %Movement{}} <- Movements.delete_movement(movement) do
-      send_resp(conn, :no_content, "")
-    end
   end
 end

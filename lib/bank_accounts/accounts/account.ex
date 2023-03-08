@@ -17,6 +17,7 @@ defmodule BankAccounts.Accounts.Account do
     account
     |> cast(attrs, [:number, :holder_id])
     |> validate_required([:number, :holder_id])
+    |> validate_format(:number,~r/[0-9]{3}-[0-9]{3}-[0-9]{3}/)
     |> unique_constraint(:number)
   end
 end

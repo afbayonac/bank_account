@@ -53,6 +53,7 @@ defmodule BankAccounts.MixProject do
   defp aliases do
     [
       setup: ["deps.get", "ecto.setup"],
+      start: ["phx.server"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]

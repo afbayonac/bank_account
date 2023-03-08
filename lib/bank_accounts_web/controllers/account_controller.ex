@@ -20,6 +20,24 @@ defmodule BankAccountsWeb.AccountController do
     end
   end
 
+  def balance(conn, %{"id" => id}) do
+    account = Accounts.get_account!(id)
+
+    increments = account.increments
+    |>Enum.reduce(0, fn i, acc -> acc + i.amount end)
+
+    decrements = account.decrements
+    |>Enum.reduce(0, fn d, acc -> acc + d.amount end)
+
+    account = account
+    |> Map.merge(%{
+      balance: increments - decrements
+    })
+
+    render(conn, :balance, account: account)
+  end
+
+
   def show(conn, %{"id" => id}) do
     account = Accounts.get_account!(id)
     render(conn, :show, account: account)

@@ -15,12 +15,24 @@ defmodule BankAccountsWeb.AccountJSON do
     %{data: data(account)}
   end
 
-  defp data(%Account{} = account) do
-    account |> IO.inspect()
+  def balance(%{account: account}) do
+    IO.puts("render balance")
     drop_list = [:__meta__, :accounts, :__struct__, :create_at, :update_at]
     holder = account.holder |> Map.drop(drop_list)
 
-    drop_list_movements = [:__meta__, :accounts, :__struct__, :from, :to]
+    %{data: %{
+        id: account.id,
+        number: account.number,
+        holder: holder,
+        balance: account.balance
+    }}
+  end
+
+  defp data(%Account{} = account) do
+    drop_list = [:__meta__, :accounts, :__struct__, :create_at, :update_at]
+    holder = account.holder |> Map.drop(drop_list)
+
+    drop_list_movements = [:__meta__, :__struct__, :from, :to]
 
     increments = account.increments
     |> Enum.map(fn i -> i |> Map.drop(drop_list_movements) end)
